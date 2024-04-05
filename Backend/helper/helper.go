@@ -16,7 +16,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-// SignedDetails
+
 type SignedDetails struct {
 	Email  string
 	UserID string
@@ -25,7 +25,7 @@ type SignedDetails struct {
 
 var SECRET_KEY string = os.Getenv("SECRET_KEY")
 
-// GenerateAllTokens generates both detailed token and refresh token
+//generates token and refreshes
 func GenerateAllTokens(email string, userId string) (signedToken string, signedRefreshToken string, err error) {
 	claims := &SignedDetails{
 		Email: email,
@@ -54,7 +54,7 @@ func GenerateAllTokens(email string, userId string) (signedToken string, signedR
 	return token, refreshToken, err
 }
 
-// ValidateToken validates the jwt token
+//  validates the jwt token
 func ValidateToken(signedToken string) (claims *SignedDetails, msg string) {
 	token, err := jwt.ParseWithClaims(
 		signedToken,
@@ -85,7 +85,7 @@ func ValidateToken(signedToken string) (claims *SignedDetails, msg string) {
 	return claims, msg
 }
 
-// UpdateAllTokens renews the user tokens when they login
+//  updates the user tokens when they login
 func UpdateAllTokens(signedToken string, signedRefreshToken string, userId string, m *store.MongoStore) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 
